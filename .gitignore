@@ -1,0 +1,4 @@
+build/
+out/
+docs/doxygen/xml
+docs/sphinx/build
