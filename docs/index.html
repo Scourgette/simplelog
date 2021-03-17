@@ -1,0 +1,646 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Simplelog &mdash; Simplelog 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Simplelog
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Simplelog</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li><a class="reference internal" href="#get-simplelog">Get simplelog</a></li>
+<li><a class="reference internal" href="#build-simplelog">Build simplelog</a></li>
+<li><a class="reference internal" href="#start-logging">Start logging</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#log-levels">Log levels</a><ul>
+<li><a class="reference internal" href="#static-maximum-log-level">Static maximum log level</a></li>
+<li><a class="reference internal" href="#dynamic-maximum-log-level">Dynamic maximum log level</a></li>
+<li><a class="reference internal" href="#log-macros">Log macros</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#asserts">Asserts</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#configuration-file">Configuration file</a></li>
+<li><a class="reference internal" href="#configuration-through-api">Configuration through API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#asynchronous-logging">Asynchronous logging</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Simplelog</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Simplelog</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="simplelog">
+<h1>Simplelog<a class="headerlink" href="#simplelog" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+<p>Simplelog is a very fast, simple and modular log library for C and C++.
+It is cross-plateform (Linux, Windows, Darwin, Android).
+Simplelog also provides an assert framework allowing to customize error processing.</p>
+<p>It will by default use the relevent logger depending on plateform (stdout, android log, …).
+Engine is also highly configurable to force one or several loggers, for everyone or for a particular log tag.
+New loggers can also be implemented as separate projects.</p>
+<p>Log formatters can be configured the same way, and custom implementations can be linked and then used
+but simplelog engine.</p>
+<p>That’s what make it highly modular and evolutive. Projects specificities will never be an issue.</p>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="get-simplelog">
+<h2>Get simplelog<a class="headerlink" href="#get-simplelog" title="Permalink to this headline">¶</a></h2>
+<p>Download from github: <a class="reference external" href="https://github.com/Scourgette/simplelog">Simplelog</a></p>
+</div>
+<div class="section" id="build-simplelog">
+<h2>Build simplelog<a class="headerlink" href="#build-simplelog" title="Permalink to this headline">¶</a></h2>
+<p>Simplelog is built using cmake. Your project should just depends on either of the following targets:</p>
+<ul class="simple">
+<li>simplelog::simplelog</li>
+<li>simplelog::simplelog_static</li>
+</ul>
+<p>Which allows static or dynamic library to be respectively used.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span> <span class="p">(</span><span class="s">VERSION</span> <span class="s">3.1</span><span class="p">)</span>
+<span class="nb">project</span> <span class="p">(</span><span class="s">test-app</span><span class="p">)</span>
+
+<span class="nb">ADD_SUBDIRECTORY</span><span class="p">(</span><span class="s">simplelog</span><span class="p">)</span>
+<span class="c"># Or instead of ADD_SUBDIRECTORY, you may fetch it through cmake:</span>
+<span class="c"># FetchContent_Declare(</span>
+<span class="c">#   simplelog</span>
+<span class="c">#   GIT_REPOSITORY &quot;https://github.com/Scourgette/simplelog.git&quot;</span>
+<span class="c">#   GIT_TAG &quot;master&quot;)</span>
+<span class="c"># FetchContent_MakeAvailable(simplelog)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">SRCS</span> <span class="s">main.c</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">test-app</span> <span class="o">${</span><span class="nv">SRCS</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">test-app</span> <span class="s">simplelog::simplelog</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Following build cmake options are available if specific configuration is needed at build time:</p>
+<ul class="simple">
+<li>SIMPLELOG_LOG_LEVEL</li>
+<li>SIMPLELOG_ASSERT_ENABLED</li>
+<li>SIMPLELOG_CONFIG_INI</li>
+<li>SIMPLELOG_MAX_LINE_LENGTH</li>
+<li>SIMPLELOG_ASYNCHRONOUS_MAX_QUEUE_SIZE</li>
+</ul>
+</div>
+<div class="section" id="start-logging">
+<h2>Start logging<a class="headerlink" href="#start-logging" title="Permalink to this headline">¶</a></h2>
+<dl class="macro">
+<dt id="c.SLOG_DECLARE_MODULE">
+<span class="target" id="logger_8h_1a1593cdeec4705486d39118fc4bfd159f"></span><code class="descname">SLOG_DECLARE_MODULE</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_DECLARE_MODULE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro to declare a tag.</p>
+<p>It should be defined at the beginning of a c/cpp file, after <code class="docutils literal notranslate"><span class="pre">#include</span></code> but before other definitions. It is mandatory before any call to log macros, and should be called only 1 time for each source file.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="n">void</span> <span class="n">my_class</span><span class="p">::</span><span class="n">func</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This is an info log&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<p>Can be used to force the module to ouput its logs on a specified logger. That logger may have been previously registered in a configuration file or through <a class="reference internal" href="#logger_8h_1a024eea685e769df17cffbe311bf18c5f"><span class="std std-ref">SLOG_REGISTER_LOGGER</span></a>.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">,</span> <span class="s2">&quot;Console&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>TODO Download example</p>
+</div>
+</div>
+<div class="section" id="log-levels">
+<h1>Log levels<a class="headerlink" href="#log-levels" title="Permalink to this headline">¶</a></h1>
+<dl class="macro">
+<dt id="c.LOG_LEVEL">
+<span class="target" id="logger_8h_1a0b87e0d3bf5853bcbb0b66a7c48fdc05"></span><code class="descname">LOG_LEVEL</code><a class="headerlink" href="#c.LOG_LEVEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current log levels are: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LOG_LEVEL_VERBOSE</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">LOG_LEVEL_DEBUG</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">LOG_LEVEL_INFO</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">LOG_LEVEL_WARNING</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">LOG_LEVEL_ERROR</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">LOG_LEVEL_PANIC</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<div class="section" id="static-maximum-log-level">
+<h2>Static maximum log level<a class="headerlink" href="#static-maximum-log-level" title="Permalink to this headline">¶</a></h2>
+<p>During cmake build, SIMPLELOG_LOG_LEVEL config can be used to define the max log level.
+Logs below that level won’t be built, and thus won’t induce any overhead during program
+execution.</p>
+</div>
+<div class="section" id="dynamic-maximum-log-level">
+<h2>Dynamic maximum log level<a class="headerlink" href="#dynamic-maximum-log-level" title="Permalink to this headline">¶</a></h2>
+<dl class="macro">
+<dt id="c.SLOG_DEFAULT_LEVEL">
+<span class="target" id="logger_8h_1a2529af403b2f330f2df50736153bb975"></span><code class="descname">SLOG_DEFAULT_LEVEL</code><span class="sig-paren">(</span>level<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_DEFAULT_LEVEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro to set the default log level. All logs below that level won’t be printed. Allowed levels are listed in <a class="reference internal" href="#logger_8h_1a0b87e0d3bf5853bcbb0b66a7c48fdc05"><span class="std std-ref">LOG_LEVEL</span></a></p>
+<p>It should be called at program startup, at the beginning of main function. It is optional and can be replaced with default configuration, or a configuration file. It should be called only one time, it is not necessary to call it again when logging from other c/cpp files outside of main function.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_DEFAULT_LEVEL</span><span class="p">(</span><span class="n">LOG_LEVEL_INFO</span><span class="p">);</span>
+
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This log is displayed&quot;</span><span class="p">);</span>
+    <span class="n">SLOGD</span><span class="p">(</span><span class="s2">&quot;This log is NOT displayed&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+</div>
+<div class="section" id="log-macros">
+<h2>Log macros<a class="headerlink" href="#log-macros" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note</strong></p>
+<ul class="simple">
+<li>When logging in C, printf-like format should be used (ie. “error: %s”)</li>
+<li>When logging in CPP, <a class="reference external" href="https://github.com/fmtlib/fmt">fmt</a> format should be used (ie. “error: {}”).
+This allows build time optimizations through templates using <a class="reference external" href="https://github.com/fmtlib/fmt">fmt</a> API.</li>
+</ul>
+<dl class="macro">
+<dt id="c.SLOGV">
+<span class="target" id="logger_8h_1a5c4d433f62996176be849147ee3805ec"></span><code class="descname">SLOGV</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOGV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verbose log<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOGV</span><span class="p">(</span><span class="s2">&quot;packet header </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">packet</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">toHex</span><span class="p">());</span> 
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOGD">
+<span class="target" id="logger_8h_1aa6b20c46cd45c76fa4e72fe73e361cac"></span><code class="descname">SLOGD</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOGD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug log<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOGD</span><span class="p">(</span><span class="s2">&quot;command sent&quot;</span><span class="p">);</span> 
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOGI">
+<span class="target" id="logger_8h_1a2f6b14e19f667ba12be80d8b079a1eed"></span><code class="descname">SLOGI</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOGI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Info log<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;received </span><span class="si">{}</span><span class="s2"> new messages&quot;</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">size</span><span class="p">());</span> 
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOGW">
+<span class="target" id="logger_8h_1a9f6c1cc6d1a7352739fb3e52ac2cc7c3"></span><code class="descname">SLOGW</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOGW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warning log<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOGW</span><span class="p">(</span><span class="s2">&quot;message was &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">messages</span><span class="p">);</span> 
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOGE">
+<span class="target" id="logger_8h_1a028e894b6a9cedb24365b7510313e6e0"></span><code class="descname">SLOGE</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error log<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOGE</span><span class="p">(</span><span class="s2">&quot;error: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span> 
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOGP">
+<span class="target" id="logger_8h_1a0e7fbe1b764fe5ab4265f033bc9fb2f8"></span><code class="descname">SLOGP</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOGP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Panic log<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOGP</span><span class="p">(</span><span class="s2">&quot;critical error: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span> 
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="asserts">
+<h1>Asserts<a class="headerlink" href="#asserts" title="Permalink to this headline">¶</a></h1>
+<p>Assert behaviour can be modified at build time using cmake configuration SIMPLELOG_ASSERT_ENABLED.
+When disabling asserts, assert code is not built, and expressions in assert may be evaluated or ignored
+depending on used macro:</p>
+<dl class="macro">
+<dt id="c.SLOG_ASSERT">
+<span class="target" id="logger_8h_1ae2a592f9d8d3d3dff11bf0a3bcf5e4ab"></span><code class="descname">SLOG_ASSERT</code><span class="sig-paren">(</span>condition, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_ASSERT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert condition is true. Condition may be followed by a custom message with optional arguments. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOG_ASSERT</span><span class="p">(</span><span class="nb">str</span> <span class="o">!=</span> <span class="n">NULL</span><span class="p">);</span>
+<span class="n">SLOG_ASSERT</span><span class="p">(</span><span class="nb">str</span> <span class="o">!=</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;string is null&quot;</span><span class="p">);</span>
+<span class="n">SLOG_ASSERT</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;string is not null, value: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">);</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOG_FAIL">
+<span class="target" id="logger_8h_1acc24b0caa5b7c76e309fb0ac6173edf2"></span><code class="descname">SLOG_FAIL</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_FAIL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abort without condition. May contain a custom message with optional arguments. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOG_FAIL</span><span class="p">();</span>
+<span class="n">SLOG_FAIL</span><span class="p">(</span><span class="s2">&quot;This should never happen&quot;</span><span class="p">);</span>
+<span class="n">SLOG_FAIL</span><span class="p">(</span><span class="s2">&quot;This should never happen, reason: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="p">);</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOG_WARN">
+<span class="target" id="logger_8h_1a4cc95a61af808118e84b3e576adf6734"></span><code class="descname">SLOG_WARN</code><span class="sig-paren">(</span>condition, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_WARN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trigger a warning assert if condition is false. Condition may be followed by a custom message with optional arguments. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOG_WARN</span><span class="p">(</span><span class="nb">str</span> <span class="o">!=</span> <span class="n">NULL</span><span class="p">);</span>
+<span class="n">SLOG_WARN</span><span class="p">(</span><span class="nb">str</span> <span class="o">!=</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;string is null&quot;</span><span class="p">);</span>
+<span class="n">SLOG_WARN</span><span class="p">(</span><span class="nb">str</span> <span class="o">==</span> <span class="n">NULL</span><span class="p">,</span> <span class="s2">&quot;string is not null, value: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">);</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOG_CHECK">
+<span class="target" id="logger_8h_1ada734b45a5ae173a6a9dd0b3a695e517"></span><code class="descname">SLOG_CHECK</code><span class="sig-paren">(</span>expression, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_CHECK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert if expression result is false. Expression is evaluated even if asserts are disabled. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOG_CHECK</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">());</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOG_CHECKVAL">
+<span class="target" id="logger_8h_1a0897e24e82f65bfe38cff00ec224c0ae"></span><code class="descname">SLOG_CHECKVAL</code><span class="sig-paren">(</span>expression, value, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_CHECKVAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert if expression result is different than value. Expression is evaluated even if asserts are disabled. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SLOG_CHECKVAL</span><span class="p">(</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">),</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOG_RETURN">
+<span class="target" id="logger_8h_1a55d119e40181f7a07a746f258283734a"></span><code class="descname">SLOG_RETURN</code><span class="sig-paren">(</span>condition, retval...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_RETURN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert that condition is true and return retval if condition is false. Retval may be omitted if return type is void. Can be used to ensure function won’t be executed even when assert are disabled. Expression is evaluated even if asserts are disabled. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">strlen</span><span class="p">(</span><span class="n">const</span> <span class="n">char</span> <span class="o">*</span> <span class="nb">str</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_RETURN</span><span class="p">(</span><span class="nb">str</span> <span class="o">!=</span> <span class="n">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="o">//...//</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+</div>
+<div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuration-file">
+<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>Simplelog can be configured using a .ini configuration file with the
+following format:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[GENERAL]</span>
+<span class="c1"># Asynchronous logging (default 0)</span>
+<span class="na">Async</span> <span class="o">=</span> <span class="s">1</span>
+<span class="c1"># Log formatter (builtins: Default|Null)</span>
+<span class="na">Formatter</span> <span class="o">=</span> <span class="s">Default</span>
+<span class="k">[LOGGERS]</span>
+<span class="c1"># Instanciate a &quot;Stdout&quot; logger named &quot;Console&quot;</span>
+<span class="na">Console</span> <span class="o">=</span> <span class="s">Stdout</span>
+<span class="c1"># Instanciate a &quot;File&quot; logger with address &quot;/tmp/logs.txt&quot; and named &quot;FileTmp&quot;</span>
+<span class="na">FileTmp</span> <span class="o">=</span> <span class="s">File:/tmp/logs.txt</span>
+<span class="k">[LEVELS]</span>
+<span class="c1"># Default log level: verbose (show all logs by default)</span>
+<span class="c1"># Default loggers: Console and FileTmp -&gt; all logs are written on those 2 loggers</span>
+<span class="na">*</span> <span class="o">=</span> <span class="s">verbose,Console,FileTmp</span>
+<span class="c1"># Logs level for tag &quot;MyTag&quot; is debug -&gt; ignore verbose logs for that tag</span>
+<span class="na">MyTag</span> <span class="o">=</span> <span class="s">debug</span>
+<span class="c1"># Logs for tag &quot;AnotherTag&quot; will only be written on Console, FileTmp won&#39;t be impacted by those logs</span>
+<span class="na">AnotherTag</span> <span class="o">=</span> <span class="s">Console</span>
+</pre></div>
+</div>
+<p>Note that loggers names, loggers types and tags are case insensitive.
+It means the config “MyTag = debug,FileTmp” can be replaced with “mytag = DEBUG,fIlEtMp”.</p>
+<p>Simplelog will search for that file at several locations, in the following order:</p>
+<ul class="simple">
+<li>Path contained in SIMPLELOG_CONFIG_INI environment variable</li>
+<li>Path contained in SIMPLELOG_CONFIG_INI cmake build configuration</li>
+<li>./simplelog.ini</li>
+<li>~/.simplelog.ini</li>
+<li>/etc/simplelog.ini</li>
+</ul>
+<p>If no config file is found, default configuration will be used:</p>
+<ul class="simple">
+<li>All compiled logs are displayed</li>
+<li>Logger depends on plateform (Android logcat on Android builds, else Stdout)</li>
+<li>Default formatter</li>
+<li>Synchronous logging</li>
+</ul>
+<p>Configuration file location can also be initialized with the following API:</p>
+<dl class="macro">
+<dt id="c.SLOG_CONFIG">
+<span class="target" id="logger_8h_1a4f42cd1e75f6781d3868533307b14877"></span><code class="descname">SLOG_CONFIG</code><span class="sig-paren">(</span>path<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update simplelog configuration given ini file located at path.</p>
+<p>It should be called at program startup, at the beginning of main function. It is optional and can be replaced with SIMPLELOG_CONFIG_INI environment variable, or default config files location. It should be called only one time, it is not necessary to call it again when logging from other c/cpp files outside of main function.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_CONFIG</span><span class="p">(</span><span class="s2">&quot;/etc/my_service/simplelog.ini&quot;</span><span class="p">);</span>
+
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This is an info log&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+</div>
+<div class="section" id="configuration-through-api">
+<h2>Configuration through API<a class="headerlink" href="#configuration-through-api" title="Permalink to this headline">¶</a></h2>
+<p>Simplelog can optionally be configured through its API:</p>
+<dl class="macro">
+<dt id="c.SLOG_SET_ASYNC">
+<span class="target" id="logger_8h_1a472181057efca362fd8c8e352019f1f6"></span><code class="descname">SLOG_SET_ASYNC</code><span class="sig-paren">(</span>async<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_SET_ASYNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro to force asynchronous logging.</p>
+<p>It should be called at program startup, at the beginning of main function. It is optional and can be replaced with default configuration, or a configuration file. It should be called only one time, it is not necessary to call it again when logging from other c/cpp files outside of main function.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_SET_ASYNC</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This log will be sent to an asynchronous logger engine&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOG_REGISTER_LOGGER">
+<span class="target" id="logger_8h_1a024eea685e769df17cffbe311bf18c5f"></span><code class="descname">SLOG_REGISTER_LOGGER</code><span class="sig-paren">(</span>...<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_REGISTER_LOGGER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro to create and register a new logger.</p>
+<p>It should be called at program startup, at the beginning of main function. It is optional and can be replaced with default configuration, or a configuration file. It should be called only one time, it is not necessary to call it again when logging from other c/cpp files outside of main function.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_REGISTER_LOGGER</span><span class="p">(</span><span class="s2">&quot;FileTmp&quot;</span><span class="p">,</span> <span class="s2">&quot;File&quot;</span><span class="p">,</span> <span class="s2">&quot;/tmp/logs.txt&quot;</span><span class="p">);</span>
+    <span class="n">SLOG_REGISTER_LOGGER</span><span class="p">(</span><span class="s2">&quot;Console&quot;</span><span class="p">,</span> <span class="s2">&quot;Stdout&quot;</span><span class="p">);</span>
+    <span class="n">SLOG_DEFAULT_LOGGERS</span><span class="p">(</span><span class="s2">&quot;TmpFile,Console&quot;</span><span class="p">);</span>
+
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This is an info log&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SLOG_DEFAULT_LOGGERS">
+<span class="target" id="logger_8h_1a79e2e91860910ad8e96474c6cfd36a62"></span><code class="descname">SLOG_DEFAULT_LOGGERS</code><span class="sig-paren">(</span>loggers_names<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_DEFAULT_LOGGERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro to select default loggers. Each log will by default be sent to all selected loggers.</p>
+<p>It should be called at program startup, at the beginning of main function. It is optional and can be replaced with default configuration, or a configuration file. It should be called only one time, it is not necessary to call it again when logging from other c/cpp files outside of main function.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_REGISTER_LOGGER</span><span class="p">(</span><span class="s2">&quot;TmpFile&quot;</span><span class="p">,</span> <span class="s2">&quot;File&quot;</span><span class="p">,</span> <span class="s2">&quot;/tmp/logs.txt&quot;</span><span class="p">);</span>
+    <span class="n">SLOG_REGISTER_LOGGER</span><span class="p">(</span><span class="s2">&quot;Console&quot;</span><span class="p">,</span> <span class="s2">&quot;Stdout&quot;</span><span class="p">);</span>
+    <span class="n">SLOG_DEFAULT_LOGGERS</span><span class="p">(</span><span class="s2">&quot;TmpFile,Console&quot;</span><span class="p">);</span>
+
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This is an info log&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+<dl class="macro">
+<dt>
+<span class="target" id="logger_8h_1a2529af403b2f330f2df50736153bb975"></span><code class="descname">SLOG_DEFAULT_LEVEL</code><span class="sig-paren">(</span>level<span class="sig-paren">)</span></dt>
+<dd><p>Macro to set the default log level. All logs below that level won’t be printed. Allowed levels are listed in <a class="reference internal" href="#logger_8h_1a0b87e0d3bf5853bcbb0b66a7c48fdc05"><span class="std std-ref">LOG_LEVEL</span></a></p>
+<p>It should be called at program startup, at the beginning of main function. It is optional and can be replaced with default configuration, or a configuration file. It should be called only one time, it is not necessary to call it again when logging from other c/cpp files outside of main function.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_DEFAULT_LEVEL</span><span class="p">(</span><span class="n">LOG_LEVEL_INFO</span><span class="p">);</span>
+
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This log is displayed&quot;</span><span class="p">);</span>
+    <span class="n">SLOGD</span><span class="p">(</span><span class="s2">&quot;This log is NOT displayed&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="asynchronous-logging">
+<h1>Asynchronous logging<a class="headerlink" href="#asynchronous-logging" title="Permalink to this headline">¶</a></h1>
+<p>By default logging is done synchronously.
+It can also be configured with an asynchronous engine:</p>
+<ul class="simple">
+<li>A thread is dedicated for writing logs</li>
+<li>An optimized internal queue is used for caching</li>
+<li>Queue max size can be configured through cmake: SIMPLELOG_ASYNCHRONOUS_MAX_QUEUE_SIZE</li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Pierre AOUN.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
