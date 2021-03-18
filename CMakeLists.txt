@@ -31,10 +31,10 @@ foreach(lib simplelog simplelog_static simplelog_obj)
   # Add definitions
   target_compile_definitions(${lib} INTERFACE ${DEFINITIONS})
   # Don't accept any warning
-  if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    target_compile_options(${lib} PRIVATE -Wall -Wextra)
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-    target_compile_options(${lib} PRIVATE /EHsc /MTd /W2 /c)
+  if (MSVC)
+    target_compile_options(${lib} PRIVATE /W4 /WX)
+  else()
+    target_compile_options(${lib} PRIVATE -Wall -Wextra -Werror)
   endif()
 endforeach()
 

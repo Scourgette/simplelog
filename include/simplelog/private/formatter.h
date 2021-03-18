@@ -10,6 +10,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <type_traits>
 
 #include "casecmp.h"
 #include "log_metadata.h"
@@ -32,7 +33,8 @@ public:
                         memory_buffer & formatted) = 0;
 
 protected:
-    template<typename T> void appendDecimal(memory_buffer & buffer, T decimal, int padding = -1)
+    template<typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+    void appendDecimal(memory_buffer & buffer, T decimal, int padding = -1)
     {
         fmt::format_int i(decimal);
         for (int i = padding - 1; i > 0 && decimal < pow(10, i); i--)

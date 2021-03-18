@@ -38,6 +38,32 @@
     } while (0)
 
 /**
+ * Modify the log formatter.
+ *
+ * It should be called at program startup, at the beginning of main function.
+ * It is optional and can be replaced with default configuration, or a
+ * configuration file.
+ * It should be called only one time, it is not necessary to call it again when
+ * logging from other c/cpp files outside of main function.
+ *
+ * @code
+ * #include <simplelog/logger.h>
+ * SLOG_DECLARE_MODULE("MyTag");
+ * int main(int argc, char ** argv)
+ * {
+ *     SLOG_FORMATTER("MyCustomFormatter");
+ *
+ *     SLOGI("This is an info log using the custom formatter");
+ *     return 0;
+ * }
+ * @endcode
+ */
+#define SLOG_FORMATTER(formatter)                                                                  \
+    do {                                                                                           \
+        _simplelog_formatter(formatter);                                                           \
+    } while (0)
+
+/**
  * Macro to create and register a new logger.
  *
  * It should be called at program startup, at the beginning of main function.
@@ -349,6 +375,7 @@ extern "C" {
 #endif
 
 void _simplelog_config_path(const char * path);
+void _simplelog_formatter(const char * formatter);
 void _simplelog_register_logger(const char * name, const char * type, const char * address);
 void _simplelog_default_loggers(const char * loggers_names);
 void _simplelog_default_log_level(int level);

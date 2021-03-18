@@ -6,10 +6,10 @@
 
 using namespace simplelog;
 
-void sync_consumer::consume(const char * msg, size_t len)
+void sync_consumer::consume(log_level level, const char * msg, size_t len)
 {
     for (auto & logger : m_loggers)
-        logger->logRaw(msg, len);
+        logger->logRaw(level, msg, len);
 }
 
 void sync_consumer::flush()

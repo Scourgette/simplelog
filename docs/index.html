@@ -586,6 +586,25 @@ It means the config “MyTag = debug,FileTmp” can be replaced with “mytag = 
  </p>
 </dd></dl>
 
+<dl class="macro">
+<dt id="c.SLOG_FORMATTER">
+<span class="target" id="logger_8h_1a3348c050e2a3bf858080198b01991bc3"></span><code class="descname">SLOG_FORMATTER</code><span class="sig-paren">(</span>formatter<span class="sig-paren">)</span><a class="headerlink" href="#c.SLOG_FORMATTER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the log formatter.</p>
+<p>It should be called at program startup, at the beginning of main function. It is optional and can be replaced with default configuration, or a configuration file. It should be called only one time, it is not necessary to call it again when logging from other c/cpp files outside of main function.</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;simplelog/logger.h&gt;</span>
+<span class="n">SLOG_DECLARE_MODULE</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">);</span>
+<span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SLOG_FORMATTER</span><span class="p">(</span><span class="s2">&quot;MyCustomFormatter&quot;</span><span class="p">);</span>
+
+    <span class="n">SLOGI</span><span class="p">(</span><span class="s2">&quot;This is an info log using the custom formatter&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
+</dd></dl>
+
 </div>
 </div>
 <div class="section" id="asynchronous-logging">

@@ -23,8 +23,8 @@ namespace simplelog {
 class logger
 {
 public:
-    logger(const char * tag) : logger(tag, log_level::verbose, formatter_factory::get()) {}
-    logger(const char * tag, log_level level, const std::shared_ptr<iformatter> & f) :
+    logger(const std::string & tag) : logger(tag, log_level::verbose, formatter_factory::get()) {}
+    logger(const std::string & tag, log_level level, const std::shared_ptr<iformatter> & f) :
         m_tag(tag),
         m_level(level),
         m_formatter(f),
@@ -39,9 +39,7 @@ public:
     virtual ~logger() = default;
 
     virtual void flush() {}
-    virtual void logRaw(const char * msg, size_t len) = 0;
-
-    void log(log_level level, const char * msg, va_list args) { log(level, "", "", 0, msg, args); }
+    virtual void logRaw(log_level level, const char * msg, size_t len) = 0;
 
     template<typename... Args>
     void log(log_level level, const char * filename, const char * funcname, int line,
@@ -56,7 +54,7 @@ public:
                             string_view(buf.begin(), buf.size()), formatted);
         formatted.append(os::getEol(), os::getEol() + strlen(os::getEol()));
         std::lock_guard<std::mutex> lock(m_mutexlogger);
-        logRaw(formatted.begin(), formatted.size());
+        logRaw(level, formatted.begin(), formatted.size());
     }
 
     void log(log_level level, const char * filename, const char * funcname, int line,
@@ -69,7 +67,7 @@ public:
                             msg, args);
         formatted.append(os::getEol(), os::getEol() + strlen(os::getEol()));
         std::lock_guard<std::mutex> lock(m_mutexlogger);
-        logRaw(formatted.begin(), formatted.size());
+        logRaw(level, formatted.begin(), formatted.size());
     }
 
 private:
@@ -133,16 +131,17 @@ public:
 
     static void registerLogger(const std::string & name, std::string type, std::string address);
 
-    static std::vector<std::shared_ptr<logger>> get(const char * tag,
+    static std::vector<std::shared_ptr<logger>> get(const std::string & tag,
                                                     const std::vector<std::string> & names);
-    static std::vector<std::shared_ptr<logger>> get(const char * tag);
+    static std::vector<std::shared_ptr<logger>> get(const std::string & tag);
 
 protected:
     logger_factory(const std::string & type);
     logger_factory(const logger_factory &) = delete;
     logger_factory & operator=(const logger_factory &) = delete;
 
-    virtual std::shared_ptr<logger> getLogger(const char * tag, const char * address = nullptr) = 0;
+    virtual std::shared_ptr<logger> getLogger(const std::string & tag,
+                                              const std::string & address = nullptr) = 0;
 
 private:
     struct instance

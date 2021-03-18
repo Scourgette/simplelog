@@ -10,8 +10,8 @@ using namespace simplelog;
 
 stdout_logger_factory stdout_logger_factory::instance;
 
-stdout_logger::stdout_logger(const char * tag) : logger(tag), m_file(stdout) {}
+stdout_logger::stdout_logger(const std::string & tag) : logger(tag), m_file(stdout) {}
 
-void stdout_logger::logRaw(const char * msg, size_t len) { fwrite(msg, 1, len, m_file); }
+void stdout_logger::logRaw(log_level, const char * msg, size_t len) { fwrite(msg, 1, len, m_file); }
 
 void stdout_logger::flush() { fflush(m_file); }

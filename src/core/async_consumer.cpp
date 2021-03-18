@@ -24,14 +24,15 @@ async_consumer::~async_consumer()
     m_thread.join();
 }
 
-void async_consumer::consume(const char * msg, size_t len)
+void async_consumer::consume(log_level level, const char * msg, size_t len)
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     if (m_queue.size() >= m_maxQueueSize) {
         m_overflow = true;
         return;
     }
-    m_queue.emplace_back(msg, len);
+    m_queue.emplace_back(std::piecewise_construct, std::forward_as_tuple(level),
+                         std::forward_as_tuple(msg, len));
     m_cv.notify_one();
 }
 
@@ -57,12 +58,13 @@ void async_consumer::threadEntry()
         auto begin = std::chrono::steady_clock::now();
         for (auto & msg : m_workingQueue) {
             for (auto & logger : m_loggers)
-                logger->logRaw(msg.c_str(), msg.size());
+                logger->logRaw(msg.first, msg.second.c_str(), msg.second.size());
         }
         bool expected = true;
         if (m_overflow.compare_exchange_weak(expected, false)) {
             for (auto & logger : m_loggers)
-                logger->logRaw(m_overflowMessage.c_str(), m_overflowMessage.size());
+                logger->logRaw(log_level::warning, m_overflowMessage.c_str(),
+                               m_overflowMessage.size());
         }
         if (m_flushing) {
             for (auto & logger : m_loggers)

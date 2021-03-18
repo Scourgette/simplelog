@@ -8,15 +8,11 @@
 
 using namespace simplelog;
 
-#ifndef SIMPLELOG_DEFAULT_FILE
-#define SIMPLELOG_DEFAULT_FILE "/tmp/logs.txt"
-#endif
-
 file_logger_factory file_logger_factory::instance;
-std::string file_logger::m_defaultPath = SIMPLELOG_DEFAULT_FILE;
+std::string file_logger::m_defaultPath = "/tmp/logs.txt";
 
-file_logger::file_logger(const char * tag, const char * path) :
-    logger(tag), m_file(fopen(path == nullptr ? m_defaultPath.c_str() : path, "wb"))
+file_logger::file_logger(const std::string & tag, const std::string & path) :
+    logger(tag), m_file(fopen(path.empty() ? m_defaultPath.c_str() : path.c_str(), "wb"))
 {}
 
 file_logger::~file_logger()
@@ -31,7 +27,7 @@ void file_logger::flush()
         fflush(m_file);
 }
 
-void file_logger::logRaw(const char * msg, size_t len)
+void file_logger::logRaw(log_level, const char * msg, size_t len)
 {
     if (m_file)
         fwrite(msg, 1, len, m_file);
