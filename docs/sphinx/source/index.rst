@@ -191,6 +191,7 @@ Simplelog can optionally be configured through its API:
 .. doxygendefine:: SLOG_REGISTER_LOGGER
 .. doxygendefine:: SLOG_DEFAULT_LOGGERS
 .. doxygendefine:: SLOG_DEFAULT_LEVEL
+.. doxygendefine:: SLOG_FORMATTER
 
 Asynchronous logging
 ====================

@@ -62,6 +62,12 @@ extern "C" void _simplelog_config_path(const char * path)
         config::get().update(std::move(stream));
 }
 
+extern "C" void _simplelog_formatter(const char * formatter)
+{
+    if (formatter)
+        config::get().setFormatter(formatter);
+}
+
 extern "C" void _simplelog_register_logger(const char * name, const char * type, const char * address)
 {
     if (!name || !type)

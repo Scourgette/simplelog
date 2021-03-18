@@ -41,6 +41,7 @@ public:
     void setDefaultLevel(log_level level) { m_tags[m_defaultTag].level = level; }
     void setDefaultLoggers(const std::string & loggers_names);
     void setAsync(bool async) { m_async = async; }
+    void setFormatter(const std::string & formatter) { m_formatter = formatter; }
     void addLogger(const std::string & name, const std::string & type, const std::string & address);
 
     // Getters
