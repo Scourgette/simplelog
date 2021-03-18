@@ -38,9 +38,9 @@ jobs:
       includeRootFolder: true 
       archiveType: 'tar'
       tarCompression: 'gz'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/Linux.$(BuildType).$(Build.BuildId).tar.gz'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/Simplelog.Linux.$(BuildType).tar.gz'
   - task: PublishBuildArtifacts@1
-    displayName: "Publish artifacts"
+    displayName: "Publish artifact"
     inputs:
-      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: 'Simplelog-$(Build.BuildId)'
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)/Simplelog.Linux.$(BuildType).tar.gz'
+      artifactName: 'Simplelog-Linux.$(BuildType)-$(Build.BuildId)'
