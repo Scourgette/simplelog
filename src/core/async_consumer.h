@@ -21,7 +21,7 @@ public:
     async_consumer(const std::vector<std::shared_ptr<logger>> & loggers);
     virtual ~async_consumer();
 
-    virtual void consume(const char * msg, size_t len) override final;
+    virtual void consume(log_level level, const char * msg, size_t len) override final;
     virtual void flush() override final;
 
 private:
@@ -37,8 +37,8 @@ private:
     std::mutex m_mutex;
     std::condition_variable m_cv;
     std::condition_variable m_ackCv;
-    std::vector<std::string> m_queue;
-    std::vector<std::string> m_workingQueue;
+    std::vector<std::pair<log_level, std::string>> m_queue;
+    std::vector<std::pair<log_level, std::string>> m_workingQueue;
     std::thread m_thread;
 
     static const size_t m_maxQueueSize;

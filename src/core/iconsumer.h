@@ -6,6 +6,7 @@
 #define SIMPLELOG_ICONSUMER
 
 #include <stdio.h>
+#include "log_metadata.h"
 
 namespace simplelog {
 
@@ -13,7 +14,7 @@ class iconsumer
 {
 public:
     virtual ~iconsumer() = default;
-    virtual void consume(const char * msg, size_t len) = 0;
+    virtual void consume(log_level level, const char * msg, size_t len) = 0;
     virtual void flush() = 0;
 };
 

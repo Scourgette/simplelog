@@ -9,7 +9,8 @@
 
 using namespace simplelog;
 
-logger_engine::logger_engine(const char * tag, log_level level, const std::shared_ptr<iformatter> & f,
+logger_engine::logger_engine(const std::string & tag, log_level level,
+                             const std::shared_ptr<iformatter> & f,
                              std::vector<std::shared_ptr<logger>> loggers) :
     logger(tag, level, f),
     m_loggers(std::move(loggers)),

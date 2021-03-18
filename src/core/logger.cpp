@@ -7,6 +7,7 @@
 #include <fstream>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 #include <unordered_set>
 
 #include "config.h"
@@ -57,6 +58,8 @@ void initLoggers()
 
 extern "C" void _simplelog_config_path(const char * path)
 {
+    if (!path)
+        return;
     auto stream = std::make_unique<std::ifstream>(path);
     if (stream->good())
         config::get().update(std::move(stream));
@@ -78,7 +81,8 @@ extern "C" void _simplelog_register_logger(const char * name, const char * type,
 
 extern "C" void _simplelog_default_loggers(const char * loggers_names)
 {
-    config::get().setDefaultLoggers(loggers_names);
+    if (loggers_names)
+        config::get().setDefaultLoggers(loggers_names);
 }
 
 extern "C" void _simplelog_default_async_logging(int async) { config::get().setAsync(async != 0); }
@@ -90,6 +94,8 @@ extern "C" void _simplelog_default_log_level(int level)
 
 extern "C" void * _simplelog_create(const char * tag, const char * loggers_names)
 {
+    if (!tag)
+        throw std::runtime_error("Invalid log tag");
     std::lock_guard<std::mutex> lock(engineMutex());
     initConfig();
     log_level level = log_level::verbose;
@@ -122,7 +128,7 @@ extern "C" void * _simplelog_create(const char * tag, const char * loggers_names
 extern "C" void _simplelog_log(void * thiz, int prio, const char * filename, const char * funcname,
                                int line, const char * msg, ...)
 {
-    if (thiz == nullptr)
+    if (!thiz || !filename || !funcname || !msg)
         return;
     va_list args;
     va_start(args, msg);
@@ -139,18 +145,21 @@ extern "C" void _simplelog_flush(void * thiz)
 
 logger_factory::logger_factory(const std::string & type) { factories()[type] = this; }
 
+// Static factories lazy initialization
 unordered_casemap<logger_factory *> & logger_factory::factories()
 {
     static unordered_casemap<logger_factory *> ret;
     return ret;
 }
 
+// Static instances lazy initialization
 unordered_casemap<logger_factory::instance> & logger_factory::instances()
 {
     static unordered_casemap<logger_factory::instance> ret;
     return ret;
 }
 
+// Static opened instances lazy initialization
 unordered_casemap<std::shared_ptr<logger>> & logger_factory::opened()
 {
     static unordered_casemap<std::shared_ptr<logger>> ret;
@@ -168,7 +177,7 @@ void logger_factory::registerLogger(const std::string & name, std::string type, 
     is[name] = instance{ std::move(type), std::move(address) };
 }
 
-std::vector<std::shared_ptr<logger>> logger_factory::get(const char * tag,
+std::vector<std::shared_ptr<logger>> logger_factory::get(const std::string & tag,
                                                          const std::vector<std::string> & names)
 {
     if (names.empty())
@@ -186,14 +195,14 @@ std::vector<std::shared_ptr<logger>> logger_factory::get(const char * tag,
         auto f = factories().find(i->second.type);
         if (f == factories().end())
             continue;
-        auto l = f->second->getLogger(tag, i->second.address.c_str());
+        auto l = f->second->getLogger(tag, i->second.address);
         opened().emplace(name, l);
         ret.push_back(l);
     }
     return ret;
 }
 
-std::vector<std::shared_ptr<logger>> logger_factory::get(const char * tag)
+std::vector<std::shared_ptr<logger>> logger_factory::get(const std::string & tag)
 {
     std::vector<std::shared_ptr<logger>> ret;
     for (const auto & instance : instances()) {
@@ -205,7 +214,7 @@ std::vector<std::shared_ptr<logger>> logger_factory::get(const char * tag)
         auto f = factories().find(instance.second.type);
         if (f == factories().end())
             continue;
-        auto l = f->second->getLogger(tag, instance.second.address.c_str());
+        auto l = f->second->getLogger(tag, instance.second.address);
         opened().emplace(instance.first, l);
         ret.push_back(l);
     }

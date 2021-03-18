@@ -20,7 +20,7 @@ class sync_consumer : public iconsumer
 public:
     sync_consumer(const std::vector<std::shared_ptr<logger>> & loggers) : m_loggers(loggers) {}
 
-    virtual void consume(const char * msg, size_t len) final;
+    virtual void consume(log_level level, const char * msg, size_t len) final;
 
     virtual void flush() final;
 

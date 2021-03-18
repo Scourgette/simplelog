@@ -12,10 +12,10 @@ namespace simplelog {
 class stdout_logger : public logger
 {
 public:
-    stdout_logger(const char * tag);
+    stdout_logger(const std::string & tag);
 
 protected:
-    virtual void logRaw(const char * msg, size_t len) override final;
+    virtual void logRaw(log_level level, const char * msg, size_t len) override final;
     virtual void flush() override final;
 
 private:
@@ -26,7 +26,7 @@ class stdout_logger_factory : public logger_factory
 {
 public:
     stdout_logger_factory() : logger_factory("Stdout") {}
-    virtual std::shared_ptr<logger> getLogger(const char * tag, const char *) override
+    virtual std::shared_ptr<logger> getLogger(const std::string & tag, const std::string &) override
     {
         return std::make_shared<stdout_logger>(tag);
     }
