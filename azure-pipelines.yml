@@ -1,0 +1,41 @@
+# C/C++ with GCC
+
+trigger:
+- master
+
+jobs:
+- job:
+  displayName: Linux
+
+  pool:
+    vmImage: ubuntu-latest
+
+  strategy:
+    matrix:
+      Debug:
+        BuildType: Debug
+        OutDir: $(Build.BinariesDirectory)/build.linux.debug
+      Release:
+        BuildType: Release
+        OutDir: $(Build.BinariesDirectory)/build.linux.release
+
+  steps:
+  - script: mkdir $(OutDir)
+    displayName: Create Build Directory
+  - task: CMake@1
+    inputs:
+      workingDirectory: $(OutDir)
+      cmakeArgs: $(Build.SourcesDirectory) -DCMAKE_BUILD_TYPE=$(BuildType) -DCMAKE_INSTALL_PREFIX=$(OutDir)/dist
+  - script: make -C $(OutDir) -j $(nproc)
+    displayName: 'Make'
+  - script: make install -C $(OutDir) -j $(nproc)
+    displayName: 'Install'
+  - script: $(OutDir)/simplelog-tests
+    displayName: 'Test'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(OutDir)/dist'
+      includeRootFolder: true 
+      archiveType: 'tar'
+      tarCompression: 'gz'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/Linux.$(BuildType).$(Build.BuildId).tar.gz'
